@@ -8,9 +8,15 @@ local.properties
 .DS_Store
 *.iml
 
+# Keep shared Antigravity / VS Code workspace tasks
+!.vscode/
+!.vscode/*.json
+
 # Generated binaries and duplicate previews
 outputs/*.apk
 outputs/*-v2.png
+outputs/*.zip
+outputs/*-README.md
 
 # Signing credentials
 *.jks

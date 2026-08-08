@@ -16,6 +16,7 @@ class RaahatViewModel: ViewModel() {
     var executionStep by mutableIntStateOf(0); private set
     var verifiedSignals by mutableIntStateOf(0); private set
     var copilotText by mutableStateOf("")
+    var backendHealth by mutableStateOf(BackendHealth(false)); private set
     val assessment = SignalFusionEngine().assess(5,true,setOf("Vehicle stuck","Underpass flooding","Water rising quickly"),36,89,22,90)
     val incident = FloodIncident("G-10 Underpass", assessment,5,WeatherSignal(36),TrafficSignal(89,7,43),DrainageSignal(22),1240,listOf(PredictedZone("G-10/2 Street 14",72,"10–16 min"),PredictedZone("G-9 Service Road",48,"22–30 min")))
     val strategies = listOf(
@@ -24,7 +25,10 @@ class RaahatViewModel: ViewModel() {
         ResponsePlan("C · Full emergency",68,1190,"HIGH",listOf(ResponseAction("Full closure","All approaches"),ResponseAction("Multi-team deployment","Police + drainage + alerts")))
     )
     val timeline = listOf("18:41" to "Heavy rainfall alert detected","18:45" to "Traffic slowdown begins","18:46" to "First citizen report received","18:49" to "Two additional reports received","18:51" to "Drainage risk increased","18:52" to "Confidence reaches 91%","18:53" to "Escalated to CRITICAL","18:54" to "Response plan generated")
-    init { viewModelScope.launch { delay(2400); screen=Screen.ROLE } }
+    init {
+        viewModelScope.launch { backendHealth = BackendApi().health() }
+        viewModelScope.launch { delay(2400); screen=Screen.ROLE }
+    }
     fun go(s:Screen){ screen=s }
     fun startDemo(){ demo=true; screen=Screen.COMMAND }
     fun verify(){ screen=Screen.VERIFY; verifiedSignals=0; viewModelScope.launch { repeat(4){ delay(650); verifiedSignals++ } } }

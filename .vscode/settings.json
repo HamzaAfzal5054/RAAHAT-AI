@@ -1,0 +1,17 @@
+{
+  "files.exclude": {
+    "**/.gradle": true,
+    "**/build": true
+  },
+  "files.watcherExclude": {
+    "**/.gradle/**": true,
+    "**/build/**": true
+  },
+  "search.exclude": {
+    "**/.gradle": true,
+    "**/build": true,
+    "outputs/*.apk": true
+  },
+  "editor.formatOnSave": true,
+  "terminal.integrated.cwd": "${workspaceFolder}"
+}

@@ -10,6 +10,7 @@
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.2.10-7F52FF?logo=kotlin&logoColor=white)](https://kotlinlang.org/)
 [![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-Material%203-4285F4?logo=jetpackcompose&logoColor=white)](https://developer.android.com/compose)
 [![License](https://img.shields.io/badge/License-Hackathon%20Demo-27D9FF)](#license)
+[![Backend](https://img.shields.io/badge/Backend-Node.js%20API-42E7A5?logo=nodedotjs&logoColor=white)](backend/README.md)
 
 An AI-powered urban flood response orchestration platform built for the **Sabz Pakistan / Nikaas** problem statement.
 
@@ -35,6 +36,7 @@ The experience is designed as an emergency command system—not a conventional c
 - **`SignalFusionEngine`** remains the deterministic safety and consistency layer.
 - **`AIReasoningService`** supports Gemini-generated explanations with a reliable local fallback.
 - **`AIOutputValidator`** validates confidence, reasoning, actions, and forecast probability.
+- **RAAHAT API** provides report ingestion, incident state, deterministic analysis, and response execution.
 - Firebase, Google Maps, and Gemini implementations can replace mock providers without changing the presentation flow.
 
 The editable Canva-compatible version is available at [`outputs/raahat-code-architecture-canva.svg`](outputs/raahat-code-architecture-canva.svg).
@@ -111,6 +113,7 @@ The built-in scenario runs without credentials or network access:
 - Deterministic mock repositories and services
 - Custom Compose Canvas maps and visualizations
 - Gradle wrapper for reproducible builds
+- Zero-dependency Node.js REST backend with built-in tests
 
 ## Project structure
 
@@ -124,6 +127,11 @@ app/src/main/java/pk/raahat/ai/
 outputs/
 ├── raahat-code-architecture-canva.svg
 └── raahat-code-architecture-preview.png
+
+backend/
+├── server.mjs            # REST API and deterministic scoring
+├── test/api.test.mjs     # Health, ingestion, scoring and dispatch tests
+└── package.json          # Zero-dependency Node scripts
 ```
 
 ## Getting started
@@ -155,6 +163,29 @@ app/build/outputs/apk/debug/app-debug.apk
 ```
 
 Launch **RAAHAT AI**, then choose **Launch Demo Scenario** for the complete presentation flow.
+
+### Run the backend
+
+```bash
+cd backend
+npm test
+npm start
+```
+
+The API runs at `http://localhost:8080`. The Android emulator automatically checks `http://10.0.2.2:8080` and displays **BACKEND LIVE** when available. If the API is unavailable, the app remains fully functional in **OFFLINE SAFE** mode.
+
+See the [backend API documentation](backend/README.md) for available routes.
+
+### Open in Antigravity
+
+Open `RAAHAT-AI.code-workspace` in Antigravity. The repository includes optimized file exclusions and ready-made tasks for:
+
+- Building the Android APK
+- Installing on an emulator
+- Starting the backend
+- Running backend tests
+
+Use the command palette and select **Tasks: Run Task** to launch any workflow.
 
 ## Live integration roadmap
 

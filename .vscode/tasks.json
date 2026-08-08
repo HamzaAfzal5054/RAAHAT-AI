@@ -1,0 +1,37 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "RAAHAT: Build Android APK",
+      "type": "shell",
+      "command": "./gradlew :app:assembleDebug --console=plain",
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": ["$gradle"]
+    },
+    {
+      "label": "RAAHAT: Test Backend",
+      "type": "shell",
+      "command": "npm test",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "group": "test"
+    },
+    {
+      "label": "RAAHAT: Start Backend",
+      "type": "shell",
+      "command": "npm start",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "raahat",
+        "pattern": { "regexp": "^(.*)$", "message": 1 },
+        "background": { "activeOnStart": true, "beginsPattern": "RAAHAT", "endsPattern": "listening" }
+      }
+    },
+    {
+      "label": "RAAHAT: Install on Emulator",
+      "type": "shell",
+      "command": "./gradlew :app:installDebug --console=plain",
+      "dependsOn": "RAAHAT: Build Android APK"
+    }
+  ]
+}
