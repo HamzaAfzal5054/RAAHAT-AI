@@ -1,0 +1,18 @@
+# Android and Gradle outputs
+.gradle/
+**/build/
+local.properties
+
+# Android Studio / macOS local state
+.idea/
+.DS_Store
+*.iml
+
+# Generated binaries and duplicate previews
+outputs/*.apk
+outputs/*-v2.png
+
+# Signing credentials
+*.jks
+*.keystore
+keystore.properties
