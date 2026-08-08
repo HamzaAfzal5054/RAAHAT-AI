@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1800" viewBox="0 0 1600 1800">
+ <defs>
+  <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#06111D"/><stop offset="1" stop-color="#0B2636"/></linearGradient>
+  <linearGradient id="cyan" x2="1"><stop stop-color="#27D9FF"/><stop offset="1" stop-color="#3478FF"/></linearGradient>
+  <linearGradient id="violet" x2="1"><stop stop-color="#776BFF"/><stop offset="1" stop-color="#AD7DFF"/></linearGradient>
+  <marker id="arrow" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto"><path d="M0 0L10 6 0 12z" fill="#27D9FF"/></marker>
+  <style>
+   .title{font:800 56px Inter,Arial;fill:#ECF7FF}.kicker{font:700 18px Inter,Arial;letter-spacing:5px;fill:#27D9FF}.h{font:750 25px Inter,Arial;fill:#ECF7FF}.p{font:450 17px Inter,Arial;fill:#9BB1C1}.tag{font:700 14px Inter,Arial;letter-spacing:1px}.line{fill:none;stroke:#27D9FF;stroke-width:4;marker-end:url(#arrow)}
+  </style>
+ </defs>
+ <rect width="1600" height="1800" fill="url(#bg)"/>
+ <circle cx="1435" cy="125" r="290" fill="#27D9FF" opacity=".035"/><circle cx="1435" cy="125" r="180" fill="none" stroke="#27D9FF" opacity=".12" stroke-width="2"/>
+ <text x="100" y="105" class="kicker">ANDROID SYSTEM ARCHITECTURE</text>
+ <text x="100" y="178" class="title">RAAHAT AI</text>
+ <text x="100" y="222" class="p">Offline-first flood response orchestration · replaceable live integrations</text>
+ <path d="M100 265H1500" stroke="#27D9FF" opacity=".3"/>
+
+ <!-- presentation -->
+ <rect x="330" y="310" width="940" height="135" rx="30" fill="#102A3A" stroke="#27D9FF" stroke-width="2"/>
+ <rect x="365" y="342" width="175" height="36" rx="18" fill="#27D9FF" opacity=".14"/><text x="388" y="366" class="tag" fill="#27D9FF">PRESENTATION</text>
+ <text x="365" y="414" class="h">Jetpack Compose + Material 3 UI</text>
+ <text x="825" y="414" class="p">Citizen mode · Command mode · animated demo</text>
+ <path d="M800 445V505" class="line"/>
+
+ <!-- VM -->
+ <rect x="330" y="515" width="940" height="135" rx="30" fill="#102A3A" stroke="#27D9FF" stroke-opacity=".55"/>
+ <rect x="365" y="547" width="125" height="36" rx="18" fill="#42E7A5" opacity=".13"/><text x="386" y="571" class="tag" fill="#42E7A5">STATE</text>
+ <text x="365" y="620" class="h">RaahatViewModel</text><text x="650" y="620" class="p">Navigation · timed verification · orchestration state</text>
+ <path d="M800 650V710" class="line"/>
+
+ <!-- provider interface row -->
+ <rect x="175" y="720" width="1250" height="165" rx="32" fill="#0D2233" stroke="#FFC857" stroke-opacity=".65"/>
+ <text x="220" y="768" class="tag" fill="#FFC857">REPLACEABLE PROVIDER CONTRACTS</text>
+ <text x="220" y="815" class="h">CitizenReport</text><text x="458" y="815" class="h">Weather</text><text x="648" y="815" class="h">Traffic</text><text x="815" y="815" class="h">Drainage</text><text x="1010" y="815" class="h">Alerts</text><text x="1160" y="815" class="h">Dispatch</text>
+ <text x="220" y="852" class="p">Interfaces isolate external data and municipal actions from presentation logic.</text>
+ <path d="M800 885V945" class="line"/>
+
+ <!-- fusion -->
+ <rect x="280" y="955" width="1040" height="165" rx="34" fill="url(#cyan)"/>
+ <text x="330" y="1005" class="tag" fill="#06111D">DETERMINISTIC SAFETY &amp; CONSISTENCY LAYER</text>
+ <text x="330" y="1055" style="font:850 32px Inter,Arial;fill:#06111D">Weighted SignalFusionEngine</text>
+ <text x="330" y="1093" style="font:500 16px Inter,Arial;fill:#0A2637">Citizen 30% · Weather 25% · Traffic 20% · Drainage 15% · Road risk 10%</text>
+ <path d="M800 1120V1180" class="line"/>
+
+ <!-- AI service -->
+ <rect x="280" y="1190" width="1040" height="150" rx="32" fill="#172A43" stroke="#9D8CFF" stroke-width="2"/>
+ <rect x="325" y="1225" width="150" height="36" rx="18" fill="#9D8CFF" opacity=".17"/><text x="347" y="1249" class="tag" fill="#BDB4FF">REASONING</text>
+ <text x="325" y="1300" class="h">AIReasoningService</text><text x="650" y="1300" class="p">Human-readable explanation · actions · forecast</text>
+ <path d="M800 1340V1400" class="line"/>
+
+ <!-- validator -->
+ <rect x="280" y="1410" width="1040" height="135" rx="30" fill="#102A3A" stroke="#42E7A5" stroke-width="2"/>
+ <text x="325" y="1460" class="tag" fill="#42E7A5">OUTPUT GUARDRAIL</text>
+ <text x="325" y="1510" class="h">AIOutputValidator</text><text x="650" y="1510" class="p">Confidence · reasoning · actions · probability</text>
+ <path d="M800 1545V1590" class="line"/>
+
+ <!-- modes -->
+ <rect x="175" y="1600" width="570" height="130" rx="28" fill="#102A3A" stroke="#42E7A5" stroke-width="2"/>
+ <text x="215" y="1645" class="tag" fill="#42E7A5">DEFAULT · ALWAYS AVAILABLE</text>
+ <text x="215" y="1688" class="h">Deterministic Local Fallback</text><text x="215" y="1718" class="p">No credentials · no network · flawless demo</text>
+ <rect x="855" y="1600" width="570" height="130" rx="28" fill="#102A3A" stroke="#9D8CFF" stroke-width="2"/>
+ <text x="895" y="1645" class="tag" fill="#BDB4FF">OPTIONAL · PRODUCTION ADAPTERS</text>
+ <text x="895" y="1688" class="h">Firebase · Maps · Gemini</text><text x="895" y="1718" class="p">Swap providers without changing presentation flow</text>
+ <path d="M800 1590H460V1600" class="line"/><path d="M800 1590H1140V1600" class="line"/>
+ <text x="800" y="1772" text-anchor="middle" class="kicker">DETECT → VERIFY → FUSE → PREDICT → RESPOND → MEASURE</text>
+</svg>
