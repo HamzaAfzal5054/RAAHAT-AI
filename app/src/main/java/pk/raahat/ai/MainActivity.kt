@@ -47,7 +47,58 @@ class MainActivity:ComponentActivity(){ override fun onCreate(b:Bundle?){super.o
 
 @Composable fun RoleCard(icon:ImageVector,title:String,sub:String,color:Color,onClick:()->Unit){ Card(onClick,Modifier.fillMaxWidth().height(116.dp),shape=RoundedCornerShape(24.dp),colors=CardDefaults.cardColors(containerColor=Panel.copy(.9f)),border=BorderStroke(1.dp,color.copy(.28f))){Row(Modifier.fillMaxSize().padding(22.dp),verticalAlignment=Alignment.CenterVertically){Box(Modifier.size(62.dp).background(color.copy(.12f),RoundedCornerShape(20.dp)),contentAlignment=Alignment.Center){Icon(icon,null,tint=color,modifier=Modifier.size(30.dp))};Spacer(Modifier.width(18.dp));Column(Modifier.weight(1f)){Text(title,fontWeight=FontWeight.Bold,letterSpacing=1.sp);Text(sub,color=Soft.copy(.6f),fontSize=13.sp)};Icon(Icons.Default.ArrowForward,null,tint=color)}}}
 
-@Composable fun Citizen(vm:RaahatViewModel){ Shell("CITIZEN NETWORK",onBack={vm.go(Screen.ROLE)}){ Text("Good evening",color=Soft.copy(.6f));Text("Flood Intelligence\nfor Islamabad",fontSize=30.sp,lineHeight=34.sp,fontWeight=FontWeight.Bold);Spacer(Modifier.height(20.dp));Glass{Row(verticalAlignment=Alignment.CenterVertically){RiskRing(48,"MODERATE",Amber,88.dp);Spacer(Modifier.width(18.dp));Column{Label("CURRENT RISK AROUND YOU");Text("G-10",fontSize=24.sp,fontWeight=FontWeight.Bold);Text("18 mm/hr rainfall  •  1.8 km away",fontSize=12.sp,color=Soft.copy(.6f))}}};Spacer(Modifier.height(14.dp));MiniMap();Spacer(Modifier.height(18.dp));Button({vm.go(Screen.REPORT)},Modifier.fillMaxWidth().height(62.dp),shape=RoundedCornerShape(20.dp)){Icon(Icons.Default.AddAlert,null);Spacer(Modifier.width(10.dp));Text("REPORT FLOODING",fontWeight=FontWeight.Bold)}; SectionTitle("LOCAL INTELLIGENCE"); Row(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.spacedBy(10.dp)){Metric("03","Reports",Modifier.weight(1f));Metric("2","Risk zones",Modifier.weight(1f));Metric("7m","Update",Modifier.weight(1f))} } }
+@Composable fun Citizen(vm:RaahatViewModel){
+    var showWeights by remember { mutableStateOf(false) }
+    Shell("RAAHAT AI",onBack={vm.go(Screen.ROLE)}){
+        Row(Modifier.fillMaxWidth().padding(bottom=14.dp),verticalAlignment=Alignment.CenterVertically){
+            Column(Modifier.weight(1f)){Label("CURRENT LOCATION");Text("Sector G-10",fontSize=27.sp,fontWeight=FontWeight.Bold)}
+            Icon(Icons.Default.LocationOn,null,tint=Amber,modifier=Modifier.size(28.dp))
+        }
+        SevereRiskCard()
+        Spacer(Modifier.height(12.dp))
+        Row(horizontalArrangement=Arrangement.spacedBy(10.dp)){
+            SignalMetric(Icons.Default.Umbrella,"INTENSITY","36","mm/hr",Color(0xFF0EA5E9),Modifier.weight(1f))
+            SignalMetric(Icons.Default.Traffic,"CONGESTION","HIGH","Underpass",Amber,Modifier.weight(1f))
+        }
+        Spacer(Modifier.height(12.dp))
+        Glass{
+            Row(verticalAlignment=Alignment.CenterVertically){Label("AI SIGNAL FUSION");Spacer(Modifier.weight(1f));Pill("CONF: 94%",Color(0xFF8B5CF6))}
+            Spacer(Modifier.height(14.dp))
+            Row(verticalAlignment=Alignment.CenterVertically){
+                RiskRing(94,"AI",Color(0xFF8B5CF6),84.dp);Spacer(Modifier.width(16.dp))
+                Text("Multiple signals detected: high rainfall and traffic congestion at G-10 Underpass. Flood probability is rising within 30 minutes.",fontSize=13.sp,lineHeight=19.sp,color=Soft.copy(.82f),modifier=Modifier.weight(1f))
+            }
+            Spacer(Modifier.height(12.dp))
+            Surface(onClick={showWeights=!showWeights},color=Soft.copy(.055f),shape=RoundedCornerShape(10.dp),border=BorderStroke(1.dp,Soft.copy(.1f))){
+                Row(Modifier.fillMaxWidth().padding(12.dp),verticalAlignment=Alignment.CenterVertically){Text("VIEW SIGNAL WEIGHTS",fontSize=10.sp,fontWeight=FontWeight.Bold,letterSpacing=1.sp,color=Soft.copy(.65f));Spacer(Modifier.weight(1f));Icon(if(showWeights)Icons.Default.ExpandLess else Icons.Default.ExpandMore,null,tint=Soft.copy(.65f))}
+            }
+            AnimatedVisibility(showWeights){Column(Modifier.padding(top=12.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){WeightBar("Citizen reports",30,Cyan);WeightBar("Weather",25,Color(0xFF0EA5E9));WeightBar("Traffic",20,Amber);WeightBar("Drainage + road",25,Red)}}
+        }
+        SectionTitle("LIVE HAZARD CONTEXT")
+        CitizenHazardMap()
+        Spacer(Modifier.height(16.dp))
+        Button({vm.go(Screen.REPORT)},Modifier.fillMaxWidth().height(60.dp),shape=RoundedCornerShape(16.dp),colors=ButtonDefaults.buttonColors(containerColor=Cyan,contentColor=Color(0xFF00363D))){Icon(Icons.Default.Report,null);Spacer(Modifier.width(10.dp));Text("REPORT FLOODING",fontWeight=FontWeight.Black,letterSpacing=1.sp)}
+    }
+}
+
+@Composable fun SevereRiskCard(){
+    val pulse=rememberInfiniteTransition(label="criticalPulse")
+    val alpha by pulse.animateFloat(.35f,.9f,infiniteRepeatable(tween(1100),RepeatMode.Reverse),label="criticalAlpha")
+    Column(Modifier.fillMaxWidth().border(1.dp,Red.copy(alpha),RoundedCornerShape(18.dp)).background(Panel.copy(.75f),RoundedCornerShape(18.dp)).padding(18.dp)){
+        Label("OVERALL RISK LEVEL")
+        Text("SEVERE",fontSize=43.sp,fontWeight=FontWeight.Black,color=Red,modifier=Modifier.align(Alignment.CenterHorizontally).padding(vertical=12.dp))
+        Row(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.spacedBy(5.dp)){repeat(5){i->Box(Modifier.weight(1f).height(8.dp).background(if(i==3)Red else Soft.copy(.09f),CircleShape))}}
+        Row(Modifier.fillMaxWidth().padding(top=7.dp)){Text("LOW",fontSize=9.sp,color=Soft.copy(.5f));Spacer(Modifier.weight(1f));Text("85 / 100",fontSize=11.sp,color=Red,fontWeight=FontWeight.Bold);Spacer(Modifier.weight(1f));Text("MAX",fontSize=9.sp,color=Soft.copy(.5f))}
+        HorizontalDivider(Modifier.padding(vertical=12.dp),color=Soft.copy(.08f))
+        Text("Immediate action advised. Flash flooding probable in low-lying areas.",fontSize=12.sp,lineHeight=18.sp,color=Soft.copy(.65f))
+    }
+}
+
+@Composable fun SignalMetric(icon:ImageVector,label:String,value:String,unit:String,color:Color,modifier:Modifier){Column(modifier.height(130.dp).background(Panel.copy(.72f),RoundedCornerShape(15.dp)).border(1.dp,Soft.copy(.08f),RoundedCornerShape(15.dp)).padding(14.dp),verticalArrangement=Arrangement.SpaceBetween){Row{Icon(icon,null,tint=color);Spacer(Modifier.weight(1f));Text(label,fontSize=8.sp,color=Soft.copy(.45f),letterSpacing=1.sp)};Column{Text(value,fontSize=26.sp,fontWeight=FontWeight.Bold,color=if(value=="HIGH")Amber else Soft);Text(unit,fontSize=10.sp,color=Soft.copy(.5f))}}}
+
+@Composable fun WeightBar(label:String,value:Int,color:Color){Row(verticalAlignment=Alignment.CenterVertically){Text(label,fontSize=10.sp,color=Soft.copy(.6f),modifier=Modifier.width(110.dp));LinearProgressIndicator({value/30f},Modifier.weight(1f).height(5.dp).clip(CircleShape),color=color,trackColor=Soft.copy(.07f));Text("$value%",fontSize=9.sp,color=color,modifier=Modifier.width(38.dp),textAlign=TextAlign.End)}}
+
+@Composable fun CitizenHazardMap(){Box(Modifier.fillMaxWidth().height(190.dp).background(Color(0xFF071827),RoundedCornerShape(18.dp)).border(1.dp,Soft.copy(.08f),RoundedCornerShape(18.dp)).clip(RoundedCornerShape(18.dp))){Canvas(Modifier.fillMaxSize()){for(i in 0..7){drawLine(Color(0xFF183044),Offset(i*size.width/7,0f),Offset(i*size.width/7,size.height),1f);drawLine(Color(0xFF183044),Offset(0f,i*size.height/7),Offset(size.width,i*size.height/7),1f)};drawLine(Color(0xFF31556A),Offset(0f,size.height*.75f),Offset(size.width,size.height*.27f),20f);drawLine(Cyan.copy(.3f),Offset(0f,size.height*.75f),Offset(size.width,size.height*.27f),3f);drawCircle(Red.copy(.12f),82f,Offset(size.width*.58f,size.height*.5f));drawCircle(Red.copy(.23f),52f,Offset(size.width*.58f,size.height*.5f));drawCircle(Red,12f,Offset(size.width*.58f,size.height*.5f))};Pill("G-10 UNDERPASS · SEVERE",Red,Modifier.align(Alignment.Center).offset(y=45.dp));Pill("LIVE RISK MAP",Cyan,Modifier.padding(12.dp).align(Alignment.TopStart))}}
 
 @Composable fun Report(vm:RaahatViewModel){Shell("INTELLIGENT REPORT",{vm.go(Screen.CITIZEN)}){Label("LOCATION · AUTO-DETECTED");Glass{Row{Icon(Icons.Default.LocationOn,null,tint=Cyan);Spacer(Modifier.width(10.dp));Column{Text("G-10 Underpass, Islamabad",fontWeight=FontWeight.Bold);Text("GPS accuracy ± 8 metres",fontSize=11.sp,color=Emerald)}}};SectionTitle("WATER LEVEL");ChoiceRow(listOf("Road wet","Ankle deep","Knee deep","Wheel level","Dangerous"),vm.selectedLevel){vm.selectedLevel=it};SectionTitle("WHAT'S HAPPENING?");ChoiceRow(listOf("Drain overflowing","Road blocked","Vehicle stuck","Person at risk","Underpass flooding","Water rising quickly"),vm.selectedSituation){vm.selectedSituation=it};Spacer(Modifier.height(18.dp));OutlinedTextField("Water rising near the eastern ramp…",{},Modifier.fillMaxWidth().height(100.dp),label={Text("Description")},shape=RoundedCornerShape(16.dp));Spacer(Modifier.height(12.dp));OutlinedButton({},Modifier.fillMaxWidth().height(54.dp),shape=RoundedCornerShape(16.dp)){Icon(Icons.Default.AddAPhoto,null);Spacer(Modifier.width(8.dp));Text("ADD PHOTO EVIDENCE")};Spacer(Modifier.height(24.dp));Button({vm.verify()},Modifier.fillMaxWidth().height(60.dp),shape=RoundedCornerShape(18.dp)){Icon(Icons.Default.AutoAwesome,null);Spacer(Modifier.width(8.dp));Text("SEND INTELLIGENT REPORT",fontWeight=FontWeight.Bold)}}}
 
